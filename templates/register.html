@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FLOW - Registration & Assessment</title>
+  
+  <!-- Tajawal Font for Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --purple-50: #faf5ff;
+      --purple-100: #f3e8ff;
+      --purple-200: #e9d5ff;
+      --purple-500: #a855f7;
+      --purple-600: #9333ea;
+      --purple-700: #7e22ce;
+      --purple-800: #6b21a8;
+      
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      
+      --white: #ffffff;
+      --green-500: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(to bottom, var(--white), var(--purple-50));
+      color: var(--gray-900);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Animation */
+    @keyframes fade-in-up {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    /* Container layout */
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      max-width: 32rem;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Header */
+    .header {
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 0.9375rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* Form Styles */
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper svg {
+      position: absolute;
+      right: 1rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--gray-400);
+      pointer-events: none;
+      transition: color 0.3s ease;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 1rem 3rem 1rem 1rem; /* Right padding for RTL icon */
+      font-family: inherit;
+      font-size: 0.9375rem;
+      color: var(--gray-900);
+      background-color: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .input-wrapper input::placeholder {
+      color: var(--gray-400);
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--purple-500);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+    }
+
+    .input-wrapper input:focus + svg,
+    .input-wrapper input:not(:placeholder-shown) + svg {
+      color: var(--purple-600);
+    }
+
+    /* Smart Assessment Card */
+    .assessment-card {
+      background-color: var(--white);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--purple-200);
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .icon-box {
+      width: 2.75rem;
+      height: 2.75rem;
+      background-color: var(--purple-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-600);
+      flex-shrink: 0;
+    }
+
+    .card-texts h3 {
+      font-weight: 700;
+      color: var(--gray-900);
+      font-size: 1.0625rem;
+      margin-bottom: 0.125rem;
+    }
+
+    .card-texts p {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+
+    /* Record Button */
+    .record-btn {
+      width: 100%;
+      background: linear-gradient(to right, var(--purple-600), var(--purple-800));
+      color: var(--white);
+      padding: 1.125rem;
+      border-radius: 1rem;
+      border: none;
+      font-family: inherit;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .record-btn:hover:not(:disabled) {
+      box-shadow: 0 15px 20px -3px rgba(147, 51, 234, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .record-btn.success {
+      background: linear-gradient(to right, var(--green-500), #15803d);
+      box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3);
+      pointer-events: none;
+    }
+
+    /* Pulsing animation for recording */
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .is-recording svg {
+      animation: pulse 1s infinite;
+      color: #fca5a5;
+    }
+
+    /* Info Banner */
+    .info-banner {
+      background-color: var(--purple-50);
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--purple-200);
+    }
+
+    .info-banner p {
+      font-size: 0.875rem;
+      color: var(--purple-800);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Final Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 1.125rem;
+      margin-top: 1rem;
+      background: var(--gray-300);
+      color: var(--gray-500);
+      border: none;
+      border-radius: 1rem;
+      font-family: inherit;
+      font-size: 1.125rem;
+      font-weight: 700;
+      cursor: not-allowed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit.active {
+      background: var(--gray-900);
+      color: var(--white);
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-submit.active:active {
+      transform: translateY(2px);
+    }
+
+    /* Login Link */
+    .footer-link {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.875rem;
+      color: var(--gray-600);
+    }
+
+    .footer-link a {
+      color: var(--purple-600);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link a:hover {
+      color: var(--purple-800);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container animate-fade-in">
+    
+    <!-- Header -->
+    <div class="header">
+      <h1>مرحباً بالمستخدم الجديد</h1>
+      <p>أكمل بياناتك وقم بإجراء تقييم صوتي سريع لتخصيص تجربتك.</p>
+    </div>
+
+    <!-- Registration Form -->
+    <form class="signup-form" onsubmit="event.preventDefault(); window.location.href='home.html';">
+      
+      <!-- Name Input -->
+      <div class="input-group">
+        <label>الاسم الكامل</label>
+        <div class="input-wrapper">
+          <input type="text" placeholder="أدخل اسمك الكامل" required />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </div>
+
+      <!-- Email Input -->
+      <div class="input-group">
+        <label>البريد الإلكتروني</label>
+        <div class="input-wrapper">
+          <input type="email" placeholder="example@email.com" required dir="ltr" style="text-align: right;" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Password Input -->
+      <div class="input-group">
+        <label>كلمة المرور</label>
+        <div class="input-wrapper">
+          <input type="password" placeholder="••••••••" required />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+      </div>
+
+      <!-- Smart Assessment Card -->
+      <div class="assessment-card">
+        <div class="card-header">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+            </svg>
+          </div>
+          <div class="card-texts">
+            <h3>التقييم الذكي</h3>
+            <p>تحليل التلعثم مدعوم بالذكاء الاصطناعي</p>
+          </div>
+        </div>
+
+        <button type="button" id="recordBtn" class="record-btn" onclick="handleRecord()">
+          <svg id="micIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+          <span id="btnText">تسجيل صوتك للتقييم</span>
+        </button>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="info-banner">
+        <p>سيقوم الذكاء الاصطناعي بتحليل شدة كلامك وتصنيف أنماط التلعثم لتقديم دعم مخصص لك.</p>
+      </div>
+
+     <a href="{{ url_for('home') }}" style="text-decoration: none; display: block; width: 100%;">
+  <button type="button" id="submitBtn" class="btn-submit">
+    إنشاء الحساب
+  </button>
+</a>
+
+    </form>
+
+    <!-- Sign In Link -->
+    <div class="footer-link">
+      <p>لديك حساب بالفعل؟ <a href="signin.html">تسجيل الدخول</a></p>
+    </div>
+
+  </div>
+
+  <!-- Interactive Logic for the Voice Recording feature -->
+  <script>
+    function handleRecord() {
+      const recordBtn = document.getElementById('recordBtn');
+      const btnText = document.getElementById('btnText');
+      const micIcon = document.getElementById('micIcon');
+      const submitBtn = document.getElementById('submitBtn');
+      
+      // Step 1: Start Recording State
+      recordBtn.classList.add('is-recording');
+      btnText.innerText = 'جاري تسجيل وتحليل صوتك...';
+
+      // Step 2: Simulate processing delay (3 seconds)
+      setTimeout(() => {
+        recordBtn.classList.remove('is-recording');
+        recordBtn.classList.add('success');
+        
+        // Change icon to a checkmark
+        micIcon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+        btnText.innerText = 'تم تسجيل الصوت وتحليله بنجاح';
+        
+        // Enable the final Submit button
+        submitBtn.disabled = false;
+        submitBtn.classList.add('active');
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
